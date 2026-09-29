@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">TM</span>
+      <div>
+        <strong>Task Manager</strong>
+        <small>Simple work tracking</small>
+      </div>
+    </div>
+    <button class="button primary" id="newTaskButton">New task</button>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Workspace</p>
+        <h1>Keep your work moving.</h1>
+        <p class="muted">Create tasks, assign owners and keep priorities visible.</p>
+      </div>
+      <label class="search">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Search tasks...">
+      </label>
+    </section>
+
+    <section class="stats" aria-label="Task summary">
+      <article class="stat-card"><span>To do</span><strong id="todoCount">0</strong></article>
+      <article class="stat-card"><span>In progress</span><strong id="progressCount">0</strong></article>
+      <article class="stat-card"><span>Done</span><strong id="doneCount">0</strong></article>
+      <article class="stat-card"><span>Overdue</span><strong id="overdueCount">0</strong></article>
+    </section>
+
+    <section class="toolbar">
+      <div class="filters" role="tablist" aria-label="Task filters">
+        <button class="filter active" data-status="all">All</button>
+        <button class="filter" data-status="todo">To do</button>
+        <button class="filter" data-status="in_progress">In progress</button>
+        <button class="filter" data-status="done">Done</button>
+      </div>
+      <select id="sortSelect" aria-label="Sort tasks">
+        <option value="newest">Newest first</option>
+        <option value="priority">Priority</option>
+        <option value="due">Due date</option>
+      </select>
+    </section>
+
+    <section id="taskList" class="task-list" aria-live="polite"></section>
+    <p id="emptyState" class="empty hidden">No tasks match your current view.</p>
+  </main>
+
+  <div id="taskModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">Task</p>
+          <h2 id="modalTitle">Create a task</h2>
+        </div>
+        <button class="icon-button" id="closeModal" aria-label="Close">×</button>
+      </div>
+
+      <form id="taskForm">
+        <label>Title <input id="title" required maxlength="120"></label>
+        <label>Description <textarea id="description" rows="4" placeholder="Add useful context..."></textarea></label>
+        <div class="form-grid">
+          <label>Status
+            <select id="status">
+              <option value="todo">To do</option>
+              <option value="in_progress">In progress</option>
+              <option value="done">Done</option>
+            </select>
+          </label>
+          <label>Priority
+            <select id="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+        <label>Due date <input id="dueDate" type="date"></label>
+        <p id="formError" class="error"></p>
+        <div class="modal-actions">
+          <button type="button" class="button" id="cancelButton">Cancel</button>
+          <button type="submit" class="button primary">Create task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="assignModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="assignTitle">
+    <div class="modal-card small">
+      <div class="modal-head">
+        <div><p class="eyebrow">Owner</p><h2 id="assignTitle">Assign task</h2></div>
+        <button class="icon-button" id="closeAssign" aria-label="Close">×</button>
+      </div>
+      <form id="assignForm">
+        <label>Assignee <input id="assignee" required maxlength="80" placeholder="e.g. Priya Sharma"></label>
+        <p id="assignError" class="error"></p>
+        <div class="modal-actions">
+          <button type="button" class="button" id="cancelAssign">Cancel</button>
+          <button type="submit" class="button primary">Assign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
